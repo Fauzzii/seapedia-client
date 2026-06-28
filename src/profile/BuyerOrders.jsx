@@ -237,7 +237,7 @@ export default function BuyerOrders({ user }) {
                   <div className="p-6 space-y-6 bg-white animate-fade-in">
                     {renderTimeline(order.status, order.order_status_histories)}
 
-                    {order.status === 'IN_DELIVERY' && order.delivery_job?.status === 'COMPLETED' && (
+                    {order.status === 'IN_DELIVERY' && (
                       <div className="p-5 rounded-2xl bg-secondary/5 border border-secondary/20 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="space-y-1">
                           <h6 className="font-extrabold text-primary text-sm flex items-center gap-1.5">
