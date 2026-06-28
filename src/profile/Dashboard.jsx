@@ -772,7 +772,7 @@ export default function Dashboard({ user }) {
                       <p className="text-base font-bold text-secondary mt-1">Earning Kurir: Rp {Number(activeJobOrder.delivery_fee).toLocaleString('id-ID')}</p>
                     </div>
                     <button
-                      onClick={() => completeJobMutation.mutate(activeJobOrderId)}
+                      onClick={() => completeJobMutation.mutate(activeJobOrder.delivery_job?.id)}
                       disabled={completeJobMutation.isPending}
                       className="w-full py-3 bg-secondary text-white font-bold rounded-xl shadow-md hover:bg-secondary/95 transition-all outline-none flex items-center justify-center gap-2"
                     >
