@@ -21,7 +21,8 @@ export default function DriverJobs({ user }) {
     queryFn: async () => {
       const response = await axios.get('http://localhost:5000/api/driver/jobs', { withCredentials: true })
       return response.data || []
-    }
+    },
+    refetchInterval: 5000
   })
 
   const { data: historyJobs = [], isLoading: isLoadingHistory } = useQuery({
@@ -29,7 +30,8 @@ export default function DriverJobs({ user }) {
     queryFn: async () => {
       const response = await axios.get('http://localhost:5000/api/driver/jobs/history', { withCredentials: true })
       return response.data || []
-    }
+    },
+    refetchInterval: 5000
   })
 
   // Catch expand query parameter

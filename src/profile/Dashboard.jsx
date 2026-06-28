@@ -19,7 +19,8 @@ export default function Dashboard({ user }) {
       const response = await axios.get('http://localhost:5000/api/users/me/dashboard-summary', { withCredentials: true })
       return response.data
     },
-    enabled: !!user
+    enabled: !!user,
+    refetchInterval: 5000
   })
 
   const { data: buyerOrders = [] } = useQuery({
@@ -57,7 +58,8 @@ export default function Dashboard({ user }) {
       const response = await axios.get(`http://localhost:5000/api/orders/${activeJobOrderId}`, { withCredentials: true })
       return response.data
     },
-    enabled: !!user && user.activeRole === 'DRIVER' && !!activeJobOrderId
+    enabled: !!user && user.activeRole === 'DRIVER' && !!activeJobOrderId,
+    refetchInterval: 5000
   })
 
   const topupMutation = useMutation({

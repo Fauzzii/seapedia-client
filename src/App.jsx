@@ -18,7 +18,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      retry: false
+      retry: false,
+      refetchInterval: 5000
     }
   },
   mutationCache: new MutationCache({
