@@ -22,7 +22,7 @@ Ini adalah antarmuka web modern untuk platform e-commerce multi-role SEAPEDIA. A
 
 *   **Pemilihan Peran Aktif**: Memiliki modal visual intuitif pasca-login yang memblokir akses dashboard privat dan meminta pengguna memilih peran aktif jika pengguna tersebut memiliki peran lebih dari satu.
 *   **Dasbor Multi-Role**: Mengubah konten visual secara dinamis (Buyer, Seller, Driver, Admin) sesuai dengan peran yang dipilih saat ini.
-*   **Timeline Pesanan Visual**: Menampilkan progres pelacakan status pesanan secara visual (PACKAGING ➔ WAITING_FOR_DRIVER ➔ IN_DELIVERY ➔ COMPLETED/RETURNED).
+*   **Timeline Pesanan Visual & Retur Barang**: Menampilkan progres pelacakan status pesanan secara visual (PACKAGING ➔ WAITING_FOR_DRIVER ➔ IN_DELIVERY ➔ COMPLETED/RETURNED) serta tombol **Ajukan Retur Barang** untuk pesanan berstatus `COMPLETED`.
 *   **Hover Dropdown Notifikasi & Cart**: Menyediakan panel hover dropdown dinamis di Navbar untuk melihat isi keranjang belanja secara langsung dan memantau pembaruan status log transaksi terbaru secara *realtime*.
 
 ---
