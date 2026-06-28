@@ -54,6 +54,24 @@ export default function BuyerOrders({ user }) {
     }
   })
 
+  const returnMutation = useMutation({
+    meta: { loader: 'global' },
+    mutationFn: async (orderId) => {
+      const response = await axios.post(`http://localhost:5000/api/buyer/orders/${orderId}/return`, {}, { withCredentials: true })
+      return response.data
+    },
+    onSuccess: (data) => {
+      setActionSuccess(data.msg || 'Pesanan berhasil dikembalikan!')
+      queryClient.invalidateQueries({ queryKey: ['buyer-orders'] })
+      queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
+      setTimeout(() => clearActions(), 3000)
+    },
+    onError: (err) => {
+      setActionError(err.response?.data?.msg || 'Gagal mengajukan retur pesanan')
+      setTimeout(() => clearActions(), 3000)
+    }
+  })
+
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse w-full">
@@ -291,6 +309,34 @@ export default function BuyerOrders({ user }) {
                       </div>
                     )}
 
+                    {order.status === 'COMPLETED' && (
+                      <div className="p-5 rounded-2xl bg-amber-50/50 border border-amber-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div className="space-y-1">
+                          <h6 className="font-extrabold text-primary text-sm flex items-center gap-1.5">
+                            <span className="material-symbols-outlined text-[20px] text-amber-600">assignment_return</span>
+                            Pengembalian Barang (Retur)
+                          </h6>
+                          <p className="text-xs text-on-surface-variant leading-relaxed">
+                            Apakah ada masalah dengan pesanan yang Anda terima? Anda dapat mengajukan retur untuk mengembalikan barang dan menerima refund saldo (di luar ongkos kirim).
+                          </p>
+                        </div>
+                        <div className="shrink-0 w-full md:w-auto">
+                          <button
+                            onClick={() => {
+                              if (confirm('Apakah Anda yakin ingin mengajukan retur untuk pesanan ini? Stok barang akan dikembalikan ke penjual, dan dana pembelian (di luar ongkir) akan di-refund ke Wallet Anda.')) {
+                                returnMutation.mutate(order.id)
+                              }
+                            }}
+                            disabled={returnMutation.isPending}
+                            className="w-full md:w-auto h-10 px-5 bg-amber-600 text-white font-bold rounded-xl text-xs hover:bg-amber-700 transition-all outline-none flex items-center justify-center gap-1.5 shadow-md active:scale-95 disabled:opacity-50"
+                          >
+                            <span className="material-symbols-outlined text-[16px]">keyboard_return</span>
+                            Ajukan Retur Barang
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="space-y-3">
                       <h5 className="text-xs uppercase font-bold text-outline tracking-wider">Produk Yang Dibeli</h5>
                       <div className="divide-y divide-outline-variant/10">
@@ -393,6 +439,7 @@ export default function BuyerOrders({ user }) {
           >
             <span className="material-symbols-outlined text-[18px]">chevron_right</span>
           </button>
+        </div>
       )}
     </div>
   )
