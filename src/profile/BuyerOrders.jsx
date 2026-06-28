@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import useProfileStore from '../store/useProfileStore'
 
 export default function BuyerOrders({ user }) {
   const navigate = useNavigate()
@@ -9,6 +10,7 @@ export default function BuyerOrders({ user }) {
   const queryClient = useQueryClient()
   const [selectedOrderId, setSelectedOrderId] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const { clearActions, setActionError, setActionSuccess, actionError, actionSuccess } = useProfileStore()
   const itemsPerPage = 5
 
   const { data: buyerOrders = [], isLoading } = useQuery({
@@ -39,13 +41,16 @@ export default function BuyerOrders({ user }) {
       const response = await axios.post(`http://localhost:5000/api/buyer/orders/${orderId}/${endpoint}`, {}, { withCredentials: true })
       return response.data
     },
+    meta: { loader: 'global' },
     onSuccess: (data) => {
-      alert(data.msg || 'Status berhasil diverifikasi!')
+      setActionSuccess(data.msg || 'Status berhasil diverifikasi!')
       queryClient.invalidateQueries({ queryKey: ['buyer-orders'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
+      setTimeout(() => clearActions(), 3000)
     },
     onError: (err) => {
-      alert(err.response?.data?.msg || 'Gagal melakukan verifikasi status pesanan')
+      setActionError(err.response?.data?.msg || 'Gagal melakukan verifikasi status pesanan')
+      setTimeout(() => clearActions(), 3000)
     }
   })
 
@@ -178,6 +183,19 @@ export default function BuyerOrders({ user }) {
           Ke Dasbor
         </button>
       </div>
+
+      {actionError && (
+        <div className="p-4 text-sm text-error bg-error/10 rounded-xl border border-error/20 flex items-center gap-3 animate-fade-in">
+          <span className="material-symbols-outlined text-error text-[20px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>error</span>
+          <span className="font-semibold text-on-surface">{actionError}</span>
+        </div>
+      )}
+      {actionSuccess && (
+        <div className="p-4 text-sm text-success-green bg-success-green/10 rounded-xl border border-success-green/20 flex items-center gap-3 animate-fade-in">
+          <span className="material-symbols-outlined text-success-green text-[20px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+          <span className="font-semibold text-on-surface">{actionSuccess}</span>
+        </div>
+      )}
 
       {buyerOrders.length === 0 ? (
         <div className="bg-white border border-outline-variant/30 rounded-[24px] p-12 text-center shadow-sm">
@@ -375,7 +393,6 @@ export default function BuyerOrders({ user }) {
           >
             <span className="material-symbols-outlined text-[18px]">chevron_right</span>
           </button>
-        </div>
       )}
     </div>
   )

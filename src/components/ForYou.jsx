@@ -29,6 +29,7 @@ export default function ForYou() {
       )
       return response.data
     },
+    meta: { loader: 'global' },
     onSuccess: (data) => {
       alert(data.msg || 'Produk berhasil ditambahkan ke keranjang!')
       queryClient.invalidateQueries({ queryKey: ['buyerCart'] })
