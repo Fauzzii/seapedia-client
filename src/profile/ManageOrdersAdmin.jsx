@@ -1,8 +1,17 @@
 import { useState, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
 export default function ManageOrdersAdmin() {
+  const getImageUrl = (url) => {
+    if (!url) return ''
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+      return url
+    }
+    return `http://localhost:5000${url}`
+  }
+
   const queryClient = useQueryClient()
   const [selectedOrder, setSelectedOrder] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -280,7 +289,7 @@ export default function ManageOrdersAdmin() {
       </div>
 
       {/* Audit & Management Detail Modal */}
-      {selectedOrder && (
+      {selectedOrder && createPortal(
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4 backdrop-blur-sm animate-fade-in">
           <div className="bg-white rounded-[24px] p-6 md:p-8 w-full max-w-4xl shadow-2xl relative max-h-[90vh] overflow-y-auto animate-scale-in">
             <button
@@ -347,7 +356,7 @@ export default function ManageOrdersAdmin() {
                         <div className="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center shrink-0 border border-outline-variant/10 overflow-hidden">
                           {item.product?.images?.[0]?.image_url ? (
                             <img
-                              src={`http://localhost:5000${item.product.images[0].image_url}`}
+                              src={getImageUrl(item.product.images[0].image_url)}
                               alt={item.product_name}
                               className="w-full h-full object-cover"
                             />
@@ -479,7 +488,8 @@ export default function ManageOrdersAdmin() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )
