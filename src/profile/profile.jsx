@@ -105,174 +105,170 @@ export default function Profile() {
           clearActions()
           setIsSidebarOpen(false)
         }}
-        className={`w-full flex items-center gap-2.5 px-3.5 py-2.2 rounded-xl transition-all outline-none ${isActive
-          ? 'bg-secondary text-white font-bold ring-2 ring-secondary/45 shadow-sm'
+        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all outline-none ${isActive
+          ? 'bg-secondary text-white font-bold ring-2 ring-secondary/50 shadow-md'
           : 'text-on-surface-variant hover:bg-surface-container'
           }`}
       >
-        <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
+        <span className="material-symbols-outlined" style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
           {icon}
         </span>
-        <span className="text-left text-[13px] font-bold">{label}</span>
+        <span className="font-label-md text-label-md text-left text-sm">{label}</span>
       </NavLink>
     )
   }
 
   return (
-    <div className="bg-background text-on-surface min-h-screen flex flex-col lg:flex-row relative">
+    <div className="bg-background text-on-surface min-h-screen flex flex-col xl:flex-row relative">
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden transition-all duration-300"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm xl:hidden transition-all duration-300"
         />
       )}
 
-      <aside className={`fixed lg:sticky top-0 inset-y-0 left-0 lg:inset-auto z-50 lg:z-auto w-[260px] bg-white shadow-2xl lg:shadow-none border-r border-outline-variant/30 flex flex-col p-3.5 space-y-5 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:h-screen lg:flex shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-white shadow-2xl xl:shadow-none border-r border-outline-variant/30 flex flex-col p-4 space-y-6 transition-transform duration-300 ease-in-out xl:translate-x-0 xl:h-screen xl:flex shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full xl:translate-x-0'
         }`}>
-        <div className="flex items-center justify-between px-1.5 py-4 mb-1.5">
+        <div className="flex items-center justify-between px-2 py-6 mb-2">
           <div className="text-left">
             <a className="font-headline-2xl text-headline-2xl font-black text-secondary tracking-tighter cursor-pointer block text-left" href="#" onClick={(e) => { e.preventDefault(); navigate('/'); }}>SEAPEDIA</a>
-            <p className="text-[10px] font-bold text-on-surface-variant text-left">Portal {roleLabel}</p>
+            <p className="font-body-sm text-body-sm text-on-surface-variant text-left">Portal {roleLabel}</p>
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="p-1 text-on-surface-variant hover:bg-surface-container rounded-lg lg:hidden outline-none flex items-center justify-center"
+            className="p-1 text-on-surface-variant hover:bg-surface-container rounded-lg xl:hidden outline-none flex items-center justify-center"
           >
             <span className="material-symbols-outlined text-xl">close</span>
           </button>
         </div>
 
-        <nav className="flex-grow overflow-y-auto pr-1 flex flex-col justify-between h-full space-y-6">
-          <div className="space-y-5">
-            {user.activeRole === 'BUYER' && (
-              <>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Utama</p>
-                  {renderSidebarLink('/buyer/dashboard', 'Dashboard', 'dashboard')}
-                  {renderSidebarLink('/buyer/notifications', 'Notifikasi', 'notifications')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Fitur &amp; Layanan</p>
-                  {renderSidebarLink('/buyer/addresses', 'Daftar Alamat', 'map')}
-                  {renderSidebarLink('/buyer/orders', 'Daftar Pesanan', 'shopping_bag')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Pengaturan</p>
-                  {renderSidebarLink('/buyer/edit', 'Ubah Profil', 'manage_accounts')}
-                </div>
-              </>
-            )}
-
-            {user.activeRole === 'SELLER' && (
-              <>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Utama</p>
-                  {renderSidebarLink('/seller/dashboard', 'Dashboard', 'dashboard')}
-                  {renderSidebarLink('/seller/notifications', 'Notifikasi', 'notifications')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Fitur &amp; Layanan</p>
-                  {renderSidebarLink('/seller/store', 'Pengaturan Toko', 'storefront')}
-                  {renderSidebarLink('/seller/products', 'Kelola Produk', 'inventory')}
-                  {renderSidebarLink('/seller/orders', 'Kelola Pesanan', 'list_alt')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Pengaturan</p>
-                  {renderSidebarLink('/seller/edit', 'Ubah Profil', 'manage_accounts')}
-                </div>
-              </>
-            )}
-
-            {user.activeRole === 'DRIVER' && (
-              <>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Utama</p>
-                  {renderSidebarLink('/driver/dashboard', 'Dashboard', 'dashboard')}
-                  {renderSidebarLink('/driver/notifications', 'Notifikasi', 'notifications')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Fitur &amp; Layanan</p>
-                  {renderSidebarLink('/driver/jobs', 'Tugas Pengiriman', 'local_shipping')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Pengaturan</p>
-                  {renderSidebarLink('/driver/edit', 'Ubah Profil', 'manage_accounts')}
-                </div>
-              </>
-            )}
-
-            {user.activeRole === 'ADMIN' && (
-              <>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Utama</p>
-                  {renderSidebarLink('/admin/dashboard', 'Dashboard', 'dashboard')}
-                  {renderSidebarLink('/admin/notifications', 'Notifikasi', 'notifications')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Fitur &amp; Layanan</p>
-                  {renderSidebarLink('/admin/users', 'Kelola Pengguna', 'group')}
-                  {renderSidebarLink('/admin/products', 'Kelola Produk', 'inventory')}
-                  {renderSidebarLink('/admin/orders', 'Kelola Pesanan', 'list_alt')}
-                  {renderSidebarLink('/admin/system', 'Simulasi Sistem', 'settings')}
-                  {renderSidebarLink('/admin/vouchers', 'Kelola Diskon', 'local_offer')}
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider px-3.5 mb-1.5">Pengaturan</p>
-                  {renderSidebarLink('/admin/edit', 'Ubah Profil', 'manage_accounts')}
-                </div>
-              </>
-            )}
-          </div>
-
-          <div className="space-y-5 pt-3 border-t border-outline-variant/10">
-            {user.activeRole !== 'ADMIN' && (
-              <div className="pb-1 px-1.5 space-y-1.5">
-                <p className="text-[9.5px] text-on-surface-variant font-bold uppercase tracking-wider">Ganti Peran</p>
-                <div className="flex flex-col gap-1 font-bold">
-                  {['BUYER', 'SELLER', 'DRIVER'].filter(r => r !== user.activeRole).map((role) => {
-                    const label = role === 'BUYER' ? 'Pembeli' : role === 'SELLER' ? 'Penjual' : role === 'DRIVER' ? 'Kurir' : 'Admin'
-                    const icon = role === 'BUYER' ? 'shopping_bag' : role === 'SELLER' ? 'storefront' : role === 'DRIVER' ? 'local_shipping' : 'shield_person'
-                    return (
-                      <button
-                        key={role}
-                        onClick={() => {
-                          setIsSidebarOpen(false)
-                          roleSwitchMutation.mutate(role)
-                        }}
-                        className="w-full flex items-center gap-2.5 px-3 py-1.8 text-xs text-secondary hover:bg-secondary/10 rounded-xl transition-colors font-bold text-left outline-none"
-                      >
-                        <span className="material-symbols-outlined text-[16px]">{icon}</span>
-                        {label}
-                      </button>
-                    )
-                  })}
-                </div>
+        <nav className="flex-grow space-y-6">
+          {user.activeRole === 'BUYER' && (
+            <>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Utama</p>
+                {renderSidebarLink('/buyer/dashboard', 'Dashboard', 'dashboard')}
+                {renderSidebarLink('/buyer/notifications', 'Notifikasi', 'notifications')}
               </div>
-            )}
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Fitur &amp; Layanan</p>
+                {renderSidebarLink('/buyer/addresses', 'Daftar Alamat', 'map')}
+                {renderSidebarLink('/buyer/orders', 'Daftar Pesanan', 'shopping_bag')}
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Pengaturan</p>
+                {renderSidebarLink('/buyer/edit', 'Ubah Profil', 'manage_accounts')}
+              </div>
+            </>
+          )}
 
-            <div className="space-y-1">
-              <button
-                onClick={() => {
-                  setIsSidebarOpen(false)
-                  logoutMutation.mutate()
-                }}
-                disabled={logoutMutation.isPending}
-                className="w-full flex items-center gap-2.5 px-3.5 py-2.2 text-error hover:bg-red-50 rounded-xl transition-colors outline-none font-bold"
-              >
-                <span className="material-symbols-outlined text-[20px]">logout</span>
-                <span className="text-left text-xs">Keluar</span>
-              </button>
+          {user.activeRole === 'SELLER' && (
+            <>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Utama</p>
+                {renderSidebarLink('/seller/dashboard', 'Dashboard', 'dashboard')}
+                {renderSidebarLink('/seller/notifications', 'Notifikasi', 'notifications')}
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Fitur &amp; Layanan</p>
+                {renderSidebarLink('/seller/store', 'Pengaturan Toko', 'storefront')}
+                {renderSidebarLink('/seller/products', 'Kelola Produk', 'inventory')}
+                {renderSidebarLink('/seller/orders', 'Kelola Pesanan', 'list_alt')}
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Pengaturan</p>
+                {renderSidebarLink('/seller/edit', 'Ubah Profil', 'manage_accounts')}
+              </div>
+            </>
+          )}
+
+          {user.activeRole === 'DRIVER' && (
+            <>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Utama</p>
+                {renderSidebarLink('/driver/dashboard', 'Dashboard', 'dashboard')}
+                {renderSidebarLink('/driver/notifications', 'Notifikasi', 'notifications')}
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Fitur &amp; Layanan</p>
+                {renderSidebarLink('/driver/jobs', 'Tugas Pengiriman', 'local_shipping')}
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Pengaturan</p>
+                {renderSidebarLink('/driver/edit', 'Ubah Profil', 'manage_accounts')}
+              </div>
+            </>
+          )}
+
+          {user.activeRole === 'ADMIN' && (
+            <>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Utama</p>
+                {renderSidebarLink('/admin/dashboard', 'Dashboard', 'dashboard')}
+                {renderSidebarLink('/admin/notifications', 'Notifikasi', 'notifications')}
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Fitur &amp; Layanan</p>
+                {renderSidebarLink('/admin/users', 'Kelola Pengguna', 'group')}
+                {renderSidebarLink('/admin/products', 'Kelola Produk', 'inventory')}
+                {renderSidebarLink('/admin/orders', 'Kelola Pesanan', 'list_alt')}
+                {renderSidebarLink('/admin/system', 'Simulasi Sistem', 'settings')}
+                {renderSidebarLink('/admin/vouchers', 'Kelola Diskon', 'local_offer')}
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Pengaturan</p>
+                {renderSidebarLink('/admin/edit', 'Ubah Profil', 'manage_accounts')}
+              </div>
+            </>
+          )}
+        </nav>
+
+        {user.activeRole !== 'ADMIN' && (
+          <div className="border-t border-outline-variant pt-4 pb-2 px-2 space-y-2">
+            <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Ganti Peran</p>
+            <div className="flex flex-col gap-1.5">
+              {['BUYER', 'SELLER', 'DRIVER'].filter(r => r !== user.activeRole).map((role) => {
+                const label = role === 'BUYER' ? 'Pembeli' : role === 'SELLER' ? 'Penjual' : role === 'DRIVER' ? 'Kurir' : 'Admin'
+                const icon = role === 'BUYER' ? 'shopping_bag' : role === 'SELLER' ? 'storefront' : role === 'DRIVER' ? 'local_shipping' : 'shield_person'
+                return (
+                  <button
+                    key={role}
+                    onClick={() => {
+                      setIsSidebarOpen(false)
+                      roleSwitchMutation.mutate(role)
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-xs text-secondary hover:bg-secondary/10 rounded-xl transition-colors font-bold text-left outline-none"
+                  >
+                    <span className="material-symbols-outlined text-sm">{icon}</span>
+                    {label}
+                  </button>
+                )
+              })}
             </div>
           </div>
-        </nav>
+        )}
+
+        <div className="border-t border-outline-variant pt-4 space-y-1">
+          <button
+            onClick={() => {
+              setIsSidebarOpen(false)
+              logoutMutation.mutate()
+            }}
+            disabled={logoutMutation.isPending}
+            className="w-full flex items-center gap-3 px-4 py-3 text-error hover:bg-red-50 rounded-xl transition-colors outline-none"
+          >
+            <span className="material-symbols-outlined text-sm">logout</span>
+            <span className="font-label-md text-label-md text-left text-sm">Keluar</span>
+          </button>
+        </div>
       </aside>
 
-      <main className="flex-grow min-h-screen flex flex-col">
+      <main className="flex-grow xl:ml-[280px] min-h-screen flex flex-col">
         <header className="sticky top-0 z-30 bg-surface shadow-[0_2px_12px_rgba(15,23,42,0.06)] h-20 flex items-center justify-between px-gutter w-full">
           <div className="flex items-center gap-8 justify-start">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 -ml-2 text-on-surface hover:bg-surface-container rounded-lg lg:hidden outline-none flex items-center justify-center"
+              className="p-2 -ml-2 text-on-surface hover:bg-surface-container rounded-lg xl:hidden outline-none flex items-center justify-center"
             >
               <span className="material-symbols-outlined text-2xl">menu</span>
             </button>
@@ -285,7 +281,7 @@ export default function Profile() {
             <UserAvatar name={user.full_name} size="md" />
           </div>
         </header>
-
+ 
         <div className="p-gutter max-w-container-max mx-auto space-y-8 flex-grow w-full">
           <Routes>
             {user.activeRole === 'BUYER' && (
