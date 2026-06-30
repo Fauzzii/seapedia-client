@@ -118,10 +118,10 @@ export default function SellerOrders({ user }) {
         <h5 className="text-xs uppercase font-bold text-outline tracking-wider">Lini Masa Status</h5>
         
         {/* Visual Dots Timeline */}
-        <div className="flex items-center justify-between relative w-full pt-2 pb-6 max-w-lg mx-auto">
-          <div className="absolute left-0 right-0 top-[22px] h-[3px] bg-outline-variant/40 -z-10"></div>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between relative w-full pt-2 pb-6 sm:pb-8 max-w-lg mx-auto gap-4 sm:gap-0">
+          <div className="hidden sm:block absolute left-0 right-0 top-[22px] h-[3px] bg-outline-variant/40 -z-10"></div>
           <div 
-            className="absolute left-0 top-[22px] h-[3px] bg-secondary -z-10 transition-all duration-500" 
+            className="hidden sm:block absolute left-0 top-[22px] h-[3px] bg-secondary -z-10 transition-all duration-500" 
             style={{ width: `${(Math.max(0, currentStepIdx) / 3) * 100}%` }}
           ></div>
 
@@ -129,8 +129,8 @@ export default function SellerOrders({ user }) {
             const isDone = currentStepIdx >= idx
             const isActive = currentStepIdx === idx
             return (
-              <div key={idx} className="flex flex-col items-center relative">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-sm transition-all duration-300 ${
+              <div key={idx} className="flex flex-row sm:flex-col items-center gap-4 sm:gap-2 relative">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-sm transition-all duration-300 shrink-0 ${
                   isActive ? 'bg-secondary text-white scale-110 ring-4 ring-secondary/25' :
                   isDone ? 'bg-secondary text-white' :
                   'bg-white border-2 border-outline-variant text-outline-variant'
@@ -141,7 +141,7 @@ export default function SellerOrders({ user }) {
                     idx + 1
                   )}
                 </div>
-                <span className={`text-[10px] font-bold mt-2 absolute top-8 whitespace-nowrap ${
+                <span className={`text-[10px] font-bold sm:absolute sm:top-8 sm:left-1/2 sm:-translate-x-1/2 sm:whitespace-nowrap ${
                   isActive ? 'text-secondary font-black' : 'text-on-surface-variant'
                 }`}>
                   {stepLabels[idx]}

@@ -19,6 +19,7 @@ import ManageProductsAdmin from './ManageProductsAdmin'
 import BuyerOrders from './BuyerOrders'
 import WriteReview from './WriteReview'
 import SellerOrders from './SellerOrders'
+import ManageOrdersAdmin from './ManageOrdersAdmin'
 import DriverJobs from './DriverJobs'
 import Notifications from './Notifications'
 
@@ -118,15 +119,15 @@ export default function Profile() {
   }
 
   return (
-    <div className="bg-background text-on-surface min-h-screen flex flex-col lg:flex-row relative">
+    <div className="bg-background text-on-surface min-h-screen flex flex-col xl:flex-row relative">
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden transition-all duration-300"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm xl:hidden transition-all duration-300"
         />
       )}
 
-      <aside className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-surface-container-lowest border-r border-outline-variant flex flex-col p-4 space-y-6 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:h-screen lg:flex shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-white shadow-2xl xl:shadow-none border-r border-outline-variant/30 flex flex-col p-4 space-y-6 transition-transform duration-300 ease-in-out xl:translate-x-0 xl:h-screen xl:flex shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full xl:translate-x-0'
         }`}>
         <div className="flex items-center justify-between px-2 py-6 mb-2">
           <div className="text-left">
@@ -135,7 +136,7 @@ export default function Profile() {
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="p-1 text-on-surface-variant hover:bg-surface-container rounded-lg lg:hidden outline-none flex items-center justify-center"
+            className="p-1 text-on-surface-variant hover:bg-surface-container rounded-lg xl:hidden outline-none flex items-center justify-center"
           >
             <span className="material-symbols-outlined text-xl">close</span>
           </button>
@@ -210,6 +211,7 @@ export default function Profile() {
                 <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-4 mb-2">Fitur &amp; Layanan</p>
                 {renderSidebarLink('/admin/users', 'Kelola Pengguna', 'group')}
                 {renderSidebarLink('/admin/products', 'Kelola Produk', 'inventory')}
+                {renderSidebarLink('/admin/orders', 'Kelola Pesanan', 'list_alt')}
                 {renderSidebarLink('/admin/system', 'Simulasi Sistem', 'settings')}
                 {renderSidebarLink('/admin/vouchers', 'Kelola Diskon', 'local_offer')}
               </div>
@@ -261,12 +263,12 @@ export default function Profile() {
         </div>
       </aside>
 
-      <main className="flex-grow lg:ml-[280px] min-h-screen flex flex-col">
+      <main className="flex-grow xl:ml-[280px] min-h-screen flex flex-col">
         <header className="sticky top-0 z-30 bg-surface shadow-[0_2px_12px_rgba(15,23,42,0.06)] h-20 flex items-center justify-between px-gutter w-full">
           <div className="flex items-center gap-8 justify-start">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 -ml-2 text-on-surface hover:bg-surface-container rounded-lg lg:hidden outline-none flex items-center justify-center"
+              className="p-2 -ml-2 text-on-surface hover:bg-surface-container rounded-lg xl:hidden outline-none flex items-center justify-center"
             >
               <span className="material-symbols-outlined text-2xl">menu</span>
             </button>
@@ -326,6 +328,7 @@ export default function Profile() {
                 <Route path="/notifications" element={<Notifications user={user} />} />
                 <Route path="/users" element={<ManageUsersAdmin user={user} />} />
                 <Route path="/products" element={<ManageProductsAdmin user={user} />} />
+                <Route path="/orders" element={<ManageOrdersAdmin user={user} />} />
                 <Route path="/system" element={<SystemSimulate user={user} />} />
                 <Route path="/vouchers" element={<Vouchers user={user} />} />
                 <Route path="/edit" element={<EditProfile user={user} setUser={setUser} roleLabel={roleLabel} />} />
