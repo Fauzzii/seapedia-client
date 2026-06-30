@@ -118,15 +118,15 @@ export default function Profile() {
   }
 
   return (
-    <div className="bg-background text-on-surface min-h-screen flex flex-col md:flex-row relative">
+    <div className="bg-background text-on-surface min-h-screen flex flex-col lg:flex-row relative">
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden transition-all duration-300"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden transition-all duration-300"
         />
       )}
 
-      <aside className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-surface-container-lowest border-r border-outline-variant flex flex-col p-4 space-y-6 transition-transform duration-300 ease-in-out md:translate-x-0 md:h-screen md:flex shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[280px] bg-surface-container-lowest border-r border-outline-variant flex flex-col p-4 space-y-6 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:h-screen lg:flex shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}>
         <div className="flex items-center justify-between px-2 py-6 mb-2">
           <div className="text-left">
@@ -135,7 +135,7 @@ export default function Profile() {
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="p-1 text-on-surface-variant hover:bg-surface-container rounded-lg md:hidden outline-none flex items-center justify-center"
+            className="p-1 text-on-surface-variant hover:bg-surface-container rounded-lg lg:hidden outline-none flex items-center justify-center"
           >
             <span className="material-symbols-outlined text-xl">close</span>
           </button>
@@ -261,12 +261,12 @@ export default function Profile() {
         </div>
       </aside>
 
-      <main className="flex-grow md:ml-[280px] min-h-screen flex flex-col">
+      <main className="flex-grow lg:ml-[280px] min-h-screen flex flex-col">
         <header className="sticky top-0 z-30 bg-surface shadow-[0_2px_12px_rgba(15,23,42,0.06)] h-20 flex items-center justify-between px-gutter w-full">
           <div className="flex items-center gap-8 justify-start">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 -ml-2 text-on-surface hover:bg-surface-container rounded-lg md:hidden outline-none flex items-center justify-center"
+              className="p-2 -ml-2 text-on-surface hover:bg-surface-container rounded-lg lg:hidden outline-none flex items-center justify-center"
             >
               <span className="material-symbols-outlined text-2xl">menu</span>
             </button>
@@ -279,49 +279,49 @@ export default function Profile() {
             <UserAvatar name={user.full_name} size="md" />
           </div>
         </header>
-
+ 
         <div className="p-gutter max-w-container-max mx-auto space-y-8 flex-grow w-full">
           <Routes>
             {user.activeRole === 'BUYER' && (
               <>
-                <Route path="/" element={<Navigate to="dashboard" replace />} />
+                <Route path="/" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
                 <Route path="/notifications" element={<Notifications user={user} />} />
                 <Route path="/addresses" element={<Addresses user={user} />} />
                 <Route path="/orders" element={<BuyerOrders user={user} />} />
                 <Route path="/write-review/:productId" element={<WriteReview user={user} />} />
                 <Route path="/edit" element={<EditProfile user={user} setUser={setUser} roleLabel={roleLabel} />} />
-                <Route path="*" element={<Navigate to="dashboard" replace />} />
+                <Route path="*" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
               </>
             )}
 
             {user.activeRole === 'SELLER' && (
               <>
-                <Route path="/" element={<Navigate to="dashboard" replace />} />
+                <Route path="/" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
                 <Route path="/notifications" element={<Notifications user={user} />} />
                 <Route path="/store" element={<StoreSettings user={user} />} />
                 <Route path="/products" element={<ManageProducts user={user} />} />
                 <Route path="/orders" element={<SellerOrders user={user} />} />
                 <Route path="/edit" element={<EditProfile user={user} setUser={setUser} roleLabel={roleLabel} />} />
-                <Route path="*" element={<Navigate to="dashboard" replace />} />
+                <Route path="*" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
               </>
             )}
 
             {user.activeRole === 'DRIVER' && (
               <>
-                <Route path="/" element={<Navigate to="dashboard" replace />} />
+                <Route path="/" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
                 <Route path="/notifications" element={<Notifications user={user} />} />
                 <Route path="/jobs" element={<DriverJobs user={user} />} />
                 <Route path="/edit" element={<EditProfile user={user} setUser={setUser} roleLabel={roleLabel} />} />
-                <Route path="*" element={<Navigate to="dashboard" replace />} />
+                <Route path="*" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
               </>
             )}
 
             {user.activeRole === 'ADMIN' && (
               <>
-                <Route path="/" element={<Navigate to="dashboard" replace />} />
+                <Route path="/" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
                 <Route path="/notifications" element={<Notifications user={user} />} />
                 <Route path="/users" element={<ManageUsersAdmin user={user} />} />
@@ -329,7 +329,7 @@ export default function Profile() {
                 <Route path="/system" element={<SystemSimulate user={user} />} />
                 <Route path="/vouchers" element={<Vouchers user={user} />} />
                 <Route path="/edit" element={<EditProfile user={user} setUser={setUser} roleLabel={roleLabel} />} />
-                <Route path="*" element={<Navigate to="dashboard" replace />} />
+                <Route path="*" element={<Navigate to={`/${user.activeRole.toLowerCase()}/dashboard`} replace />} />
               </>
             )}
           </Routes>

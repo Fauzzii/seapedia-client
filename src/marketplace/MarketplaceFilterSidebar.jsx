@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import useMarketplaceStore from '../store/useMarketplaceStore'
 
 export default function MarketplaceFilterSidebar({
@@ -16,6 +17,37 @@ export default function MarketplaceFilterSidebar({
     setMinRating,
     resetFilters
   } = useMarketplaceStore()
+
+  const [localMinPrice, setLocalMinPrice] = useState(minPrice)
+  const [localMaxPrice, setLocalMaxPrice] = useState(maxPrice)
+
+  // Sync from store when it changes (like on Reset or initialization)
+  useEffect(() => {
+    setLocalMinPrice(minPrice)
+  }, [minPrice])
+
+  useEffect(() => {
+    setLocalMaxPrice(maxPrice)
+  }, [maxPrice])
+
+  // Debounce updates back to store
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localMinPrice !== minPrice) {
+        setMinPrice(localMinPrice)
+      }
+    }, 500)
+    return () => clearTimeout(handler)
+  }, [localMinPrice, minPrice, setMinPrice])
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localMaxPrice !== maxPrice) {
+        setMaxPrice(localMaxPrice)
+      }
+    }, 500)
+    return () => clearTimeout(handler)
+  }, [localMaxPrice, maxPrice, setMaxPrice])
 
   const hasActiveFilters =
     selectedCategories.length > 0 ||
@@ -92,7 +124,7 @@ export default function MarketplaceFilterSidebar({
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                value={minPrice}
+                value={localMinPrice}
                 onKeyDown={(e) => {
                   if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
                     e.preventDefault()
@@ -100,7 +132,7 @@ export default function MarketplaceFilterSidebar({
                 }}
                 onChange={(e) => {
                   const val = e.target.value
-                  if (/^\d*$/.test(val)) setMinPrice(val)
+                  if (/^\d*$/.test(val)) setLocalMinPrice(val)
                 }}
                 placeholder="Harga Minimum"
                 className="w-full pl-9 pr-3 py-2.5 text-body-sm rounded-xl bg-surface-container-lowest border border-outline-variant focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all"
@@ -112,7 +144,7 @@ export default function MarketplaceFilterSidebar({
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                value={maxPrice}
+                value={localMaxPrice}
                 onKeyDown={(e) => {
                   if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
                     e.preventDefault()
@@ -120,7 +152,7 @@ export default function MarketplaceFilterSidebar({
                 }}
                 onChange={(e) => {
                   const val = e.target.value
-                  if (/^\d*$/.test(val)) setMaxPrice(val)
+                  if (/^\d*$/.test(val)) setLocalMaxPrice(val)
                 }}
                 placeholder="Harga Maksimum"
                 className="w-full pl-9 pr-3 py-2.5 text-body-sm rounded-xl bg-surface-container-lowest border border-outline-variant focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all"

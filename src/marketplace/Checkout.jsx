@@ -258,6 +258,7 @@ export default function Checkout() {
       showToastMsg('Checkout berhasil! Mengalihkan ke transaksi...')
       queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
       queryClient.invalidateQueries({ queryKey: ['buyerCart'] })
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       resetCheckoutState()
       setTimeout(() => {
         navigate('/buyer/dashboard')

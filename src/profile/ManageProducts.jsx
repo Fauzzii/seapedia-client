@@ -70,6 +70,7 @@ export default function ManageProducts({ user }) {
       setEditingProduct(null)
       queryClient.invalidateQueries({ queryKey: ['seller-products'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       setTimeout(() => clearActions(), 2000)
     },
     onError: (err) => {
@@ -86,6 +87,7 @@ export default function ManageProducts({ user }) {
       setActionSuccess('Produk berhasil dihapus!')
       queryClient.invalidateQueries({ queryKey: ['seller-products'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       setTimeout(() => clearActions(), 2000)
     },
     onError: (err) => {
@@ -274,7 +276,8 @@ export default function ManageProducts({ user }) {
   }
 
   return (
-    <div className="bg-white border border-outline-variant rounded-[24px] p-8 shadow-sm space-y-6 w-full relative animate-fade-in">
+    <>
+      <div className="bg-white border border-outline-variant rounded-[24px] p-8 shadow-sm space-y-6 w-full relative animate-fade-in">
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>
           <h3 className="font-headline-xl text-headline-xl text-primary font-bold">Kelola Produk Toko</h3>
@@ -385,9 +388,10 @@ export default function ManageProducts({ user }) {
           })
         )}
       </div>
+    </div>
 
-      {showProductModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+    {showProductModal && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4 backdrop-blur-sm">
           <div className="bg-white rounded-[24px] p-8 w-full max-w-lg shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowProductModal(false)}
@@ -533,6 +537,6 @@ export default function ManageProducts({ user }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

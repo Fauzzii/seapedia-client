@@ -117,7 +117,8 @@ export default function Marketplace() {
       return { products: mapped, total, pages, currentPage: cp }
     },
     placeholderData: (prev) => prev, // keep previous data visible while fetching
-    staleTime: 30000
+    staleTime: 30000,
+    refetchInterval: false
   })
 
   const products = productsData?.products || []

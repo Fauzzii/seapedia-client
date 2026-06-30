@@ -43,6 +43,7 @@ export default function ManageProductsAdmin({ user }) {
       setEditingProduct(null)
       queryClient.invalidateQueries({ queryKey: ['admin-products'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       setTimeout(() => clearActions(), 2000)
     },
     onError: (err) => {
@@ -58,6 +59,7 @@ export default function ManageProductsAdmin({ user }) {
       setActionSuccess('Produk berhasil dihapus!')
       queryClient.invalidateQueries({ queryKey: ['admin-products'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       setTimeout(() => clearActions(), 2000)
     },
     onError: (err) => {
@@ -117,7 +119,8 @@ export default function ManageProductsAdmin({ user }) {
   }
 
   return (
-    <div className="bg-white border border-outline-variant rounded-[24px] p-6 md:p-8 shadow-sm space-y-6 w-full">
+    <>
+      <div className="bg-white border border-outline-variant rounded-[24px] p-6 md:p-8 shadow-sm space-y-6 w-full">
       <div className="border-b border-outline-variant/10 pb-5">
         <h2 className="font-headline-2xl text-headline-2xl text-primary font-black">Kelola Produk (Admin)</h2>
         <p className="text-body-sm text-on-surface-variant mt-1">Pantau dan ubah atau hapus katalog produk dari seluruh toko.</p>
@@ -180,9 +183,10 @@ export default function ManageProductsAdmin({ user }) {
           </tbody>
         </table>
       </div>
+    </div>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+    {showModal && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4 backdrop-blur-sm">
           <div className="bg-white rounded-[24px] p-8 w-full max-w-md shadow-2xl relative">
             <button
               onClick={() => {
@@ -273,6 +277,6 @@ export default function ManageProductsAdmin({ user }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

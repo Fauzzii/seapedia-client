@@ -11,6 +11,9 @@ export default function BuyerOrders({ user }) {
   const [selectedOrderId, setSelectedOrderId] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const { clearActions, setActionError, setActionSuccess, actionError, actionSuccess } = useProfileStore()
+  const [returnConfirmId, setReturnConfirmId] = useState(null)
+  const [successModalMsg, setSuccessModalMsg] = useState('')
+  const [errorModalMsg, setErrorModalMsg] = useState('')
   const itemsPerPage = 5
 
   const { data: buyerOrders = [], isLoading } = useQuery({
@@ -62,13 +65,22 @@ export default function BuyerOrders({ user }) {
     },
     onSuccess: (data) => {
       setActionSuccess(data.msg || 'Pesanan berhasil dikembalikan!')
+      setSuccessModalMsg(data.msg || 'Pesanan berhasil dikembalikan!')
       queryClient.invalidateQueries({ queryKey: ['buyer-orders'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard-summary'] })
-      setTimeout(() => clearActions(), 3000)
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+      setTimeout(() => {
+        clearActions()
+        setSuccessModalMsg('')
+      }, 3000)
     },
     onError: (err) => {
       setActionError(err.response?.data?.msg || 'Gagal mengajukan retur pesanan')
-      setTimeout(() => clearActions(), 3000)
+      setErrorModalMsg(err.response?.data?.msg || 'Gagal mengajukan retur pesanan')
+      setTimeout(() => {
+        clearActions()
+        setErrorModalMsg('')
+      }, 3000)
     }
   })
 
@@ -322,11 +334,7 @@ export default function BuyerOrders({ user }) {
                         </div>
                         <div className="shrink-0 w-full md:w-auto">
                           <button
-                            onClick={() => {
-                              if (confirm('Apakah Anda yakin ingin mengajukan retur untuk pesanan ini? Stok barang akan dikembalikan ke penjual, dan dana pembelian (di luar ongkir) akan di-refund ke Wallet Anda.')) {
-                                returnMutation.mutate(order.id)
-                              }
-                            }}
+                            onClick={() => setReturnConfirmId(order.id)}
                             disabled={returnMutation.isPending}
                             className="w-full md:w-auto h-10 px-5 bg-amber-600 text-white font-bold rounded-xl text-xs hover:bg-amber-700 transition-all outline-none flex items-center justify-center gap-1.5 shadow-md active:scale-95 disabled:opacity-50"
                           >
@@ -439,6 +447,68 @@ export default function BuyerOrders({ user }) {
           >
             <span className="material-symbols-outlined text-[18px]">chevron_right</span>
           </button>
+        </div>
+      )}
+
+      {/* Custom Return Confirmation Modal */}
+      {returnConfirmId && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fade-in">
+          <div className="bg-white rounded-[24px] p-8 max-w-md w-full shadow-2xl flex flex-col items-center justify-center text-center border border-outline-variant/30">
+            <div className="w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center mb-6 text-amber-600">
+              <span className="material-symbols-outlined text-3xl font-bold">assignment_return</span>
+            </div>
+            <h4 className="font-headline-xl text-headline-xl text-primary font-bold mb-3">Konfirmasi Retur Barang</h4>
+            <p className="text-body-sm text-on-surface-variant font-medium leading-relaxed mb-8">
+              Apakah Anda yakin ingin mengajukan retur untuk pesanan ini? Stok barang akan dikembalikan ke penjual, dan dana pembelian (di luar ongkos kirim) akan dikembalikan ke Wallet Anda.
+            </p>
+            <div className="flex gap-4 w-full">
+              <button
+                onClick={() => setReturnConfirmId(null)}
+                className="flex-1 h-12 border border-outline text-on-surface-variant rounded-xl font-bold hover:bg-surface-container transition-all outline-none"
+              >
+                Batal
+              </button>
+              <button
+                onClick={() => {
+                  returnMutation.mutate(returnConfirmId)
+                  setReturnConfirmId(null)
+                }}
+                className="flex-1 h-12 bg-amber-600 text-white rounded-xl font-bold hover:bg-amber-700 shadow-md transition-all active:scale-95 outline-none"
+              >
+                Ya, Retur
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Return Success Modal */}
+      {successModalMsg && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fade-in">
+          <div className="bg-white rounded-[24px] p-8 max-w-sm w-full shadow-2xl flex flex-col items-center justify-center text-center border border-outline-variant/30">
+            <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-6 text-green-600">
+              <span className="material-symbols-outlined text-4xl font-bold">check_circle</span>
+            </div>
+            <h4 className="font-headline-xl text-headline-xl text-primary font-bold mb-2">Retur Berhasil</h4>
+            <p className="text-body-sm text-on-surface-variant font-medium leading-relaxed">
+              {successModalMsg}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Return Error Modal */}
+      {errorModalMsg && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fade-in">
+          <div className="bg-white rounded-[24px] p-8 max-w-sm w-full shadow-2xl flex flex-col items-center justify-center text-center border border-outline-variant/30">
+            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mb-6 text-red-600">
+              <span className="material-symbols-outlined text-4xl font-bold">error</span>
+            </div>
+            <h4 className="font-headline-xl text-headline-xl text-primary font-bold mb-2">Retur Gagal</h4>
+            <p className="text-body-sm text-on-surface-variant font-medium leading-relaxed">
+              {errorModalMsg}
+            </p>
+          </div>
         </div>
       )}
     </div>
