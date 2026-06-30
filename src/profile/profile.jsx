@@ -142,7 +142,7 @@ export default function Profile() {
           </button>
         </div>
 
-        <nav className="flex-grow space-y-6">
+        <nav className="flex-grow overflow-y-auto pr-1 space-y-6">
           {user.activeRole === 'BUYER' && (
             <>
               <div className="space-y-1">
@@ -222,42 +222,43 @@ export default function Profile() {
             </>
           )}
         </nav>
-        <div className="border-t border-outline-variant pt-1.5 space-y-1.5 -mt-12">
-          {user.activeRole !== 'ADMIN' && (
-            <div className="px-2 space-y-1">
-              <p className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider px-1">Ganti Peran</p>
-              <div className="flex flex-col gap-1 font-bold">
-                {['BUYER', 'SELLER', 'DRIVER'].filter(r => r !== user.activeRole).map((role) => {
-                  const label = role === 'BUYER' ? 'Pembeli' : role === 'SELLER' ? 'Penjual' : role === 'DRIVER' ? 'Kurir' : 'Admin'
-                  const icon = role === 'BUYER' ? 'shopping_bag' : role === 'SELLER' ? 'storefront' : role === 'DRIVER' ? 'local_shipping' : 'shield_person'
-                  return (
-                    <button
-                      key={role}
-                      onClick={() => {
-                        setIsSidebarOpen(false)
-                        roleSwitchMutation.mutate(role)
-                      }}
-                      className="w-full flex items-center gap-2.5 px-3 py-1.5 text-xs text-secondary hover:bg-secondary/10 rounded-xl transition-colors font-bold text-left outline-none"
-                    >
-                      <span className="material-symbols-outlined text-[15px]">{icon}</span>
-                      {label}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
 
+        {user.activeRole !== 'ADMIN' && (
+          <div className="border-t border-outline-variant pt-4 pb-2 px-2 space-y-2">
+            <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-1">Ganti Peran</p>
+            <div className="flex flex-col gap-1.5 font-bold">
+              {['BUYER', 'SELLER', 'DRIVER'].filter(r => r !== user.activeRole).map((role) => {
+                const label = role === 'BUYER' ? 'Pembeli' : role === 'SELLER' ? 'Penjual' : role === 'DRIVER' ? 'Kurir' : 'Admin'
+                const icon = role === 'BUYER' ? 'shopping_bag' : role === 'SELLER' ? 'storefront' : role === 'DRIVER' ? 'local_shipping' : 'shield_person'
+                return (
+                  <button
+                    key={role}
+                    onClick={() => {
+                      setIsSidebarOpen(false)
+                      roleSwitchMutation.mutate(role)
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-xs text-secondary hover:bg-secondary/10 rounded-xl transition-colors font-bold text-left outline-none"
+                  >
+                    <span className="material-symbols-outlined text-sm">{icon}</span>
+                    {label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className="border-t border-outline-variant pt-4 space-y-1">
           <button
             onClick={() => {
               setIsSidebarOpen(false)
               logoutMutation.mutate()
             }}
             disabled={logoutMutation.isPending}
-            className="w-full flex items-center gap-2.5 px-4 py-1.8 text-error hover:bg-red-50 rounded-xl transition-colors outline-none font-bold text-xs"
+            className="w-full flex items-center gap-3 px-4 py-3 text-error hover:bg-red-50 rounded-xl transition-colors outline-none font-bold"
           >
-            <span className="material-symbols-outlined text-[18px]">logout</span>
-            <span className="text-left">Keluar</span>
+            <span className="material-symbols-outlined text-sm">logout</span>
+            <span className="font-label-md text-label-md text-left text-sm">Keluar</span>
           </button>
         </div>
       </aside>
