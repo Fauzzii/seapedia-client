@@ -32,6 +32,7 @@ export default function ManageProductsAdmin({ user }) {
         { withCredentials: true }
       )
     },
+    meta: { loader: 'global' },
     onSuccess: () => {
       setActionSuccess('Produk berhasil diperbarui!')
       setShowModal(false)
@@ -55,6 +56,7 @@ export default function ManageProductsAdmin({ user }) {
     mutationFn: async (id) => {
       await axios.delete(`http://localhost:5000/api/admin/products/${id}`, { withCredentials: true })
     },
+    meta: { loader: 'global' },
     onSuccess: () => {
       setActionSuccess('Produk berhasil dihapus!')
       queryClient.invalidateQueries({ queryKey: ['admin-products'] })
@@ -168,9 +170,7 @@ export default function ManageProductsAdmin({ user }) {
                   </button>
                   <button
                     onClick={() => {
-                      if (confirm('Apakah Anda yakin ingin menghapus produk ini secara permanen dari toko?')) {
-                        deleteProductMutation.mutate(p.id)
-                      }
+                      deleteProductMutation.mutate(p.id)
                     }}
                     disabled={deleteProductMutation.isPending}
                     className="p-2 text-error hover:bg-red-50 rounded-lg transition-colors outline-none"
