@@ -222,40 +222,39 @@ export default function Profile() {
             </>
           )}
         </nav>
-
-        {user.activeRole !== 'ADMIN' && (
-          <div className="border-t border-outline-variant pt-4 pb-2 px-2 space-y-2">
-            <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Ganti Peran</p>
-            <div className="flex flex-col gap-1.5">
-              {['BUYER', 'SELLER', 'DRIVER'].filter(r => r !== user.activeRole).map((role) => {
-                const label = role === 'BUYER' ? 'Pembeli' : role === 'SELLER' ? 'Penjual' : role === 'DRIVER' ? 'Kurir' : 'Admin'
-                const icon = role === 'BUYER' ? 'shopping_bag' : role === 'SELLER' ? 'storefront' : role === 'DRIVER' ? 'local_shipping' : 'shield_person'
-                return (
-                  <button
-                    key={role}
-                    onClick={() => {
-                      setIsSidebarOpen(false)
-                      roleSwitchMutation.mutate(role)
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-xs text-secondary hover:bg-secondary/10 rounded-xl transition-colors font-bold text-left outline-none"
-                  >
-                    <span className="material-symbols-outlined text-sm">{icon}</span>
-                    {label}
-                  </button>
-                )
-              })}
+        <div className="border-t border-outline-variant pt-3.5 space-y-3">
+          {user.activeRole !== 'ADMIN' && (
+            <div className="px-2 space-y-2">
+              <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-1">Ganti Peran</p>
+              <div className="flex flex-col gap-1.5">
+                {['BUYER', 'SELLER', 'DRIVER'].filter(r => r !== user.activeRole).map((role) => {
+                  const label = role === 'BUYER' ? 'Pembeli' : role === 'SELLER' ? 'Penjual' : role === 'DRIVER' ? 'Kurir' : 'Admin'
+                  const icon = role === 'BUYER' ? 'shopping_bag' : role === 'SELLER' ? 'storefront' : role === 'DRIVER' ? 'local_shipping' : 'shield_person'
+                  return (
+                    <button
+                      key={role}
+                      onClick={() => {
+                        setIsSidebarOpen(false)
+                        roleSwitchMutation.mutate(role)
+                      }}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs text-secondary hover:bg-secondary/10 rounded-xl transition-colors font-bold text-left outline-none"
+                    >
+                      <span className="material-symbols-outlined text-sm">{icon}</span>
+                      {label}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="border-t border-outline-variant pt-4 space-y-1">
           <button
             onClick={() => {
               setIsSidebarOpen(false)
               logoutMutation.mutate()
             }}
             disabled={logoutMutation.isPending}
-            className="w-full flex items-center gap-3 px-4 py-3 text-error hover:bg-red-50 rounded-xl transition-colors outline-none"
+            className="w-full flex items-center gap-3 px-4 py-2.5 text-error hover:bg-red-50 rounded-xl transition-colors outline-none font-bold"
           >
             <span className="material-symbols-outlined text-sm">logout</span>
             <span className="font-label-md text-label-md text-left text-sm">Keluar</span>
