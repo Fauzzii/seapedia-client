@@ -222,7 +222,7 @@ export default function Profile() {
             </>
           )}
         </nav>
-        <div className="border-t border-outline-variant pt-1 space-y-1.5">
+        <div className="border-t border-outline-variant pt-1 space-y-1">
           {user.activeRole !== 'ADMIN' && (
             <div className="px-2 space-y-2">
               <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider px-1">Ganti Peran</p>
